@@ -2,77 +2,71 @@
 
 ---
 
-## ✅ Provider란?
+## 개요
 
-- **NestJs의 핵심 개념**
-- 대부분의 클래스 (서비스, 리포지토리, 팩토리, 헬퍼 등)는 **Provider**로 간주된다.
-- 주요 개념: **의존성 주입(Dependency Injection, DI)** 을 통해 다른 클래스에서 사용 가능
-
-> Nest 런타임이 객체들 간의 관계를 자동으로 연결해줌
+- 게시물 데이터를 데이터베이스에서 가져오는 로직 **Service**에서 구현한다.
 
 ---
 
-## 🧪 Service란?
+## 1. 로컬 데이터 저장
 
-- 소프트웨어 전반에서 사용되는 일반적인 개념(NestJS, JS 한정 아님)
-- NestJS에서 `@Injectable()` 데코레이터로 선언하여 **DI 대상**으로 설정
-- 모듈에 `providers`로 등록하여 사용
-- 컨트롤러에서 사용되는 **비즈니스 로직 처리**를 담당
+- `boards` 배열안에 게시물 데이터를 저장한다.
+- **`private` 키워드**를 사용하는 이유:
+  - `private`을 사용하지 않으면 다른 컴포넌트에서 `BoardsService`에 접근하여 `boards` 배열 값을 임의로 수정할 수 있기 때문입니다.
 
-### 📍 예: 데이터 유효성 검사, DB 생성/조회 등의 비즈니스 로직
+---
 
-```ts
-@Controller()
-export class AppController {
-  constructor(private readonly appService: AppService) {}
+## 2. 모든 게시물 가져오기
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello(); // Service 메서드 호출
-  }
-}
+- `boards` 배열 안의 모든 데이터를 가져오기 위해 **`getAllBoards()`** 메서드를 사용합니다.
+- 이 메서드를 호출하려면 **Controller**를 통해 요청이 전달되어야 합니다.
+
+---
+
+## 3. 요청 처리 흐름
+
+1. **클라이언트 요청**
+   - 예: `axios.get('/boards')`
+2. **Controller**
+   - 요청 경로에 맞춰 해당 메서드로 라우팅
+   - 예: `getAllBoards()` 메서드 호출
+3. **Service**
+   - 요청에 맞는 로직 처리
+   - 결과값을 Controller로 반환
+4. **Controller**
+   - Service로부터 받은 결과를 클라이언트로 응답
+
+---
+
+## 4. Express 예시
+
+```javascript
+// 예시 코드 (Express 기반)
+app.get("/boards", (req, res) => {
+  const boards = boardsService.getAllBoards();
+  res.send(boards);
+});
 ```
 
 ---
 
-## Controller와 Service 연결 (DI 활용)
+## 5. 요청 흐름 정리
 
-- Controller 내부에서 constructor를 통해 Service를 주입(inject)받는다.
-- private 접근자를 사용해서 클래스 내부에서 해당 서비스가 사용 가능하다.
-- Nest는 타입을 기반으로 자동 주입한다(TS때문)
+```scss
+[Client]  axios.get('/boards')
+   ↓
+[Controller]  요청 경로 매핑 → getAllBoards() 호출
+   ↓
+[Service]  로직 실행 → 데이터 반환
+   ↓
+[Controller]  결과 응답
+   ↓
+[Client]  결과 수신
 
-```ts
-@Controller("boards")
-export class BoardsController {
-  constructor(private boardsService: BoardsService) {}
-
-  @Get()
-  getAllBoards() {
-    return this.boardsService.findAll(); // BoardsService 메서드 사용
-  }
-}
 ```
 
----
+### 핵심요약
 
-## Provider 등록하기
-
-- Provider는 사용 전에 반드시 등록해야 함
-- 등록 위치: 해당 모듈의 @Module() 데코레이터 내부의 providers 배열
-
-```ts
-@Module({
-  controllers: [BoardsController],
-  providers: [BoardsService], // 여기에 등록!
-})
-export class BoardsModule {}
-```
-
----
-
-| 구분     | 설명                                                                   |
-| -------- | ---------------------------------------------------------------------- |
-| Provider | Nest에서 의존성 주입 대상이 되는 클래스들 (Service, Repository 등)     |
-| Service  | 비즈니스 로직을 처리하는 Provider                                      |
-| DI 방법  | Controller에서 `constructor(private xxxService: XxxService)` 방식 사용 |
-| 등록     | 모듈 파일의 `providers` 배열에 등록 필수                               |
+- Service: 비즈니스 로직 처리 (게시물 데이터 관리)
+- Controller: 요청을 받고 알맞은 메서드 호출
+- Client -> Controller -> Service -> Controller -> Client 순서로 데이터 이동
