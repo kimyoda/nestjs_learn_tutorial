@@ -15,7 +15,8 @@ let BoardsService = class BoardsService {
     getAllBoards() {
         return this.boards;
     }
-    createBoard(title, description) {
+    createBoard(createBoardDto) {
+        const { title, description } = createBoardDto;
         const board = {
             id: (0, uuid_1.v1)(),
             title,
