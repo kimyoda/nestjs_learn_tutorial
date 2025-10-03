@@ -1,4 +1,6 @@
+import { Board } from './board.model';
 export declare class BoardsService {
     private boards;
-    getAllBoards(): never[];
+    getAllBoards(): Board[];
+    createBoard(title: string, description: string): Board;
 }
