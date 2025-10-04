@@ -27,14 +27,15 @@ let BoardsService = class BoardsService {
         return board;
     }
     getBoardById(id) {
-        const targetBoard = this.boards.find((board) => board.id === id);
-        if (!targetBoard) {
+        const found = this.boards.find((board) => board.id === id);
+        if (!found) {
             throw new common_1.NotFoundException(`Can't find Board with id ${id}`);
         }
-        return targetBoard;
+        return found;
     }
     deleteBoard(id) {
-        this.boards = this.boards.filter((board) => board.id !== id);
+        const found = this.getBoardById(id);
+        this.boards = this.boards.filter((board) => board.id !== found.id);
     }
     updateBoardStatus(id, status) {
         const board = this.getBoardById(id);

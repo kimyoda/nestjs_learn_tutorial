@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const boards_service_1 = require("./boards.service");
 const board_model_1 = require("./board.model");
 const create_board_dto_1 = require("./dto/create-board.dto");
+const board_status_validation_pipe_1 = require("./pipes/board-status-validation.pipe");
 let BoardsController = class BoardsController {
     boardService;
     constructor(boardService) {
@@ -70,7 +71,7 @@ __decorate([
 __decorate([
     (0, common_1.Patch)('/:id/status'),
     __param(0, (0, common_1.Param)('id')),
-    __param(1, (0, common_1.Body)('status')),
+    __param(1, (0, common_1.Body)('status', board_status_validation_pipe_1.BoardStatusValidationPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", void 0)
