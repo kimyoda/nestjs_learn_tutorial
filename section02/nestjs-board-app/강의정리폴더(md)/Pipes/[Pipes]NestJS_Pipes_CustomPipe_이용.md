@@ -25,6 +25,9 @@
 - **transform() 메소드**를 필수로 포함해야 함
 - NestJS가 인자(arguments)를 처리하기 위해 사용
 
+- `npm install class-validator class-transformer --save`
+
+
 ### 🔧 transform() 메소드의 역할
 
 **transform() 메소드는 두 개의 파라미터를 받습니다:**
