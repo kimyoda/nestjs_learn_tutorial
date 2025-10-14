@@ -2,9 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BoardStatusValidationPipe = void 0;
 const common_1 = require("@nestjs/common");
-const board_model_1 = require("../board.model");
+const board_status_enum_1 = require("../board-status.enum");
 class BoardStatusValidationPipe {
-    StatusOptions = [board_model_1.BoardStatus.PRIVATE, board_model_1.BoardStatus.PUBLIC];
+    StatusOptions = [board_status_enum_1.BoardStatus.PRIVATE, board_status_enum_1.BoardStatus.PUBLIC];
     transform(value) {
         value = value.toUpperCase();
         if (!this.isStatusValid(value)) {
