@@ -6,4 +6,5 @@ export declare class BoardsController {
     constructor(boardService: BoardsService);
     createBoard(CreateBoardDto: CreateBoardDto): Promise<Board>;
     getBoardById(id: number): Promise<Board>;
+    deleteBoard(id: number): Promise<void>;
 }

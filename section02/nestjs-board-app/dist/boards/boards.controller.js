@@ -27,6 +27,9 @@ let BoardsController = class BoardsController {
     getBoardById(id) {
         return this.boardService.getBoardById(id);
     }
+    deleteBoard(id) {
+        return this.boardService.deleteBoard(id);
+    }
 };
 exports.BoardsController = BoardsController;
 __decorate([
@@ -44,6 +47,13 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], BoardsController.prototype, "getBoardById", null);
+__decorate([
+    (0, common_1.Delete)('/:id'),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], BoardsController.prototype, "deleteBoard", null);
 exports.BoardsController = BoardsController = __decorate([
     (0, common_1.Controller)('boards'),
     __metadata("design:paramtypes", [boards_service_1.BoardsService])

@@ -43,6 +43,15 @@ export class BoardsService {
     return found;
   }
 
+  // 게시물 삭제
+  async deleteBoard(id: number): Promise<void> {
+    const result = await this.boardRepository.delete(id);
+
+    if (result.affected === 0) {
+      throw new NotFoundException(`Can't find Board with id ${id}`);
+    }
+  }
+
   // getBoardById(id: string): Board {
   //   const found = this.boards.find((board) => board.id === id);
   //   // 찾은 게시물이 없다면, NotFoundException 예외를 던집니다.
