@@ -37,6 +37,15 @@ let BoardsService = class BoardsService {
             throw new common_1.NotFoundException(`Can't find Board with id ${id}`);
         }
     }
+    async updateBoardStatus(id, status) {
+        const board = await this.getBoardById(id);
+        board.status = status;
+        await this.boardRepository.save(board);
+        return board;
+    }
+    async getAllBoards() {
+        return this.boardRepository.find();
+    }
 };
 exports.BoardsService = BoardsService;
 exports.BoardsService = BoardsService = __decorate([
