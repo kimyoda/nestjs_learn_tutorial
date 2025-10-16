@@ -47,4 +47,10 @@ export class BoardsController {
   ): Promise<Board> {
     return this.boardService.updateBoardStatus(id, status);
   }
+
+  // 모든 게시물 가져오기
+  @Get()
+  getAllBoard(): Promise<Board[]> {
+    return this.boardService.getAllBoards();
+  }
 }

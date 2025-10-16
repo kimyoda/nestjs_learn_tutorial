@@ -35,6 +35,9 @@ let BoardsController = class BoardsController {
     updateBoardStatus(id, status) {
         return this.boardService.updateBoardStatus(id, status);
     }
+    getAllBoard() {
+        return this.boardService.getAllBoards();
+    }
 };
 exports.BoardsController = BoardsController;
 __decorate([
@@ -67,6 +70,12 @@ __decorate([
     __metadata("design:paramtypes", [Number, String]),
     __metadata("design:returntype", Promise)
 ], BoardsController.prototype, "updateBoardStatus", null);
+__decorate([
+    (0, common_1.Get)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], BoardsController.prototype, "getAllBoard", null);
 exports.BoardsController = BoardsController = __decorate([
     (0, common_1.Controller)('boards'),
     __metadata("design:paramtypes", [boards_service_1.BoardsService])

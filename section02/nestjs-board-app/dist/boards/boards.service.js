@@ -43,6 +43,9 @@ let BoardsService = class BoardsService {
         await this.boardRepository.save(board);
         return board;
     }
+    async getAllBoards() {
+        return this.boardRepository.find();
+    }
 };
 exports.BoardsService = BoardsService;
 exports.BoardsService = BoardsService = __decorate([

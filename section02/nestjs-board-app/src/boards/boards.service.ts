@@ -47,4 +47,9 @@ export class BoardsService {
 
     return board;
   }
+
+  // 모든 게시물 가져오기
+  async getAllBoards(): Promise<Board[]> {
+    return this.boardRepository.find();
+  }
 }
