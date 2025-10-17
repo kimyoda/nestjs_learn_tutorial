@@ -22,7 +22,17 @@ let UserRepository = class UserRepository extends typeorm_1.Repository {
     async createUser(authCredentialsDto) {
         const { username, password } = authCredentialsDto;
         const user = this.create({ username, password });
-        await this.save(user);
+        try {
+            await this.save(user);
+        }
+        catch (error) {
+            if (error.code === '23505') {
+                throw new common_1.ConflictException('Existiong username');
+            }
+            else {
+                throw new common_1.InternalServerErrorException();
+            }
+        }
     }
 };
 exports.UserRepository = UserRepository;
