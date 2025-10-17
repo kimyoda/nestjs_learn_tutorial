@@ -6,6 +6,7 @@ import {
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
+import * as bcrypt from 'bcryptjs'; // bcryptjs 추가
 
 @Injectable() // ✅ 1. @Injectable() 데코레이터 사용
 export class UserRepository extends Repository<User> {
@@ -17,7 +18,13 @@ export class UserRepository extends Repository<User> {
   // 유저 생성 추가
   async createUser(authCredentialsDto: AuthCredentialsDto): Promise<void> {
     const { username, password } = authCredentialsDto;
-    const user = this.create({ username, password });
+
+    // 암호화 로직 적용, Salt 생성
+    const salt = await bcrypt.genSalt();
+    // 비밀번호 생성
+    const hashPassword = await bcrypt.hash(password, salt);
+    // 해싱된 비밀번호로 유저 생성
+    const user = this.create({ username, password: hashPassword });
 
     // try-catch 문 적용
     try {
@@ -25,7 +32,7 @@ export class UserRepository extends Repository<User> {
     } catch (error) {
       // "23505"는 PostgreSQL의 unique violation에러 코드이다.
       if (error.code === '23505') {
-        throw new ConflictException('Existiong username');
+        throw new ConflictException('Existing username');
       } else {
         throw new InternalServerErrorException();
       }
