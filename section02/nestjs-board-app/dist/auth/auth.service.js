@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
 const user_repository_1 = require("./user.repository");
+const bcrypt = require("bcryptjs");
 let AuthService = class AuthService {
     userRepository;
     constructor(userRepository) {
@@ -19,6 +20,16 @@ let AuthService = class AuthService {
     }
     async signUp(authCredentialsDto) {
         return this.userRepository.createUser(authCredentialsDto);
+    }
+    async signIn(authCredentialsDto) {
+        const { username, password } = authCredentialsDto;
+        const user = await this.userRepository.findOne({ where: { username } });
+        if (user && (await bcrypt.compare(password, user.password))) {
+            return 'logIn success';
+        }
+        else {
+            throw new common_1.UnauthorizedException('logIn failed');
+        }
     }
 };
 exports.AuthService = AuthService;
