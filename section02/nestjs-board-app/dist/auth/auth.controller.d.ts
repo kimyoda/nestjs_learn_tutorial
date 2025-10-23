@@ -7,4 +7,5 @@ export declare class AuthController {
     signIn(authCredentialsDto: AuthCredentialsDto): Promise<{
         accessToken: string;
     }>;
+    test(req: any): void;
 }
