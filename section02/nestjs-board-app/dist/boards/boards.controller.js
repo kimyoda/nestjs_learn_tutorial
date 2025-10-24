@@ -19,13 +19,15 @@ const create_board_dto_1 = require("./dto/create-board.dto");
 const board_status_validation_pipe_1 = require("./pipes/board-status-validation.pipe");
 const board_status_enum_1 = require("./board-status.enum");
 const passport_1 = require("@nestjs/passport");
+const get_user_decorator_1 = require("../auth/get-user.decorator");
+const user_entity_1 = require("../auth/user.entity");
 let BoardsController = class BoardsController {
     boardService;
     constructor(boardService) {
         this.boardService = boardService;
     }
-    createBoard(CreateBoardDto) {
-        return this.boardService.createBoard(CreateBoardDto);
+    createBoard(CreateBoardDto, user) {
+        return this.boardService.createBoard(CreateBoardDto, user);
     }
     getBoardById(id) {
         return this.boardService.getBoardById(id);
@@ -45,8 +47,10 @@ __decorate([
     (0, common_1.Post)(),
     (0, common_1.UsePipes)(common_1.ValidationPipe),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, get_user_decorator_1.GetUser)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_board_dto_1.CreateBoardDto]),
+    __metadata("design:paramtypes", [create_board_dto_1.CreateBoardDto,
+        user_entity_1.User]),
     __metadata("design:returntype", Promise)
 ], BoardsController.prototype, "createBoard", null);
 __decorate([
