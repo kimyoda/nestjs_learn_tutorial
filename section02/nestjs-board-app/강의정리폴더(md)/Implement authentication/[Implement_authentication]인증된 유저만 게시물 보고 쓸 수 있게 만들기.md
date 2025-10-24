@@ -19,6 +19,12 @@ module.ts
 export class BoardsModule {}
 ```
 
+controller에 추가
+
+```ts
+@UseGuards(AuthGuard())
+```
+
 ---
 
 - token을 받아와서 get()으로 조회해오기!
