@@ -21,8 +21,8 @@ let BoardsService = class BoardsService {
     constructor(boardRepository) {
         this.boardRepository = boardRepository;
     }
-    createBoard(createBoardDto) {
-        return this.boardRepository.createBoard(createBoardDto);
+    createBoard(createBoardDto, user) {
+        return this.boardRepository.createBoard(createBoardDto, user);
     }
     async getBoardById(id) {
         const found = await this.boardRepository.findOne({ where: { id } });
@@ -44,7 +44,9 @@ let BoardsService = class BoardsService {
         return board;
     }
     async getAllBoards() {
-        return this.boardRepository.find();
+        return this.boardRepository.find({
+            relations: ['user'],
+        });
     }
 };
 exports.BoardsService = BoardsService;
