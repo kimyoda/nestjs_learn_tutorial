@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Board } from './board.entity';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { BoardStatus } from './board-status.enum';
+import { User } from 'src/auth/user.entity';
 
 @Injectable()
 export class BoardsService {
@@ -13,8 +14,8 @@ export class BoardsService {
   ) {}
 
   // 게시물 생성 로직
-  createBoard(createBoardDto: CreateBoardDto): Promise<Board> {
-    return this.boardRepository.createBoard(createBoardDto);
+  createBoard(createBoardDto: CreateBoardDto, user: User): Promise<Board> {
+    return this.boardRepository.createBoard(createBoardDto, user);
   }
 
   // 게시물 조회 로직
@@ -50,6 +51,8 @@ export class BoardsService {
 
   // 모든 게시물 가져오기
   async getAllBoards(): Promise<Board[]> {
-    return this.boardRepository.find();
+    return this.boardRepository.find({
+      relations: ['user'],
+    });
   }
 }
