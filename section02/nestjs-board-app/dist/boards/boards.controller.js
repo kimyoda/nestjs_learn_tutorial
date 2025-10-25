@@ -23,11 +23,13 @@ const get_user_decorator_1 = require("../auth/get-user.decorator");
 const user_entity_1 = require("../auth/user.entity");
 let BoardsController = class BoardsController {
     boardService;
+    logger = new common_1.Logger('BoardsController');
     constructor(boardService) {
         this.boardService = boardService;
     }
-    createBoard(CreateBoardDto, user) {
-        return this.boardService.createBoard(CreateBoardDto, user);
+    createBoard(createBoardDto, user) {
+        this.logger.verbose(`User ${user.username} creating a new board. Payload: ${JSON.stringify(createBoardDto)}`);
+        return this.boardService.createBoard(createBoardDto, user);
     }
     getBoardById(id, user) {
         return this.boardService.getBoardById(id, user);
@@ -39,6 +41,7 @@ let BoardsController = class BoardsController {
         return this.boardService.updateBoardStatus(id, status, user);
     }
     getAllBoard(user) {
+        this.logger.verbose(`User ${user.username} trying to get all boards`);
         return this.boardService.getAllBoards(user);
     }
 };
