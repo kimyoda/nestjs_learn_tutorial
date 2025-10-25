@@ -38,8 +38,8 @@ let BoardsController = class BoardsController {
     updateBoardStatus(id, status) {
         return this.boardService.updateBoardStatus(id, status);
     }
-    getAllBoard() {
-        return this.boardService.getAllBoards();
+    getAllBoard(user) {
+        return this.boardService.getAllBoards(user);
     }
 };
 exports.BoardsController = BoardsController;
@@ -77,8 +77,9 @@ __decorate([
 ], BoardsController.prototype, "updateBoardStatus", null);
 __decorate([
     (0, common_1.Get)(),
+    __param(0, (0, get_user_decorator_1.GetUser)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [user_entity_1.User]),
     __metadata("design:returntype", Promise)
 ], BoardsController.prototype, "getAllBoard", null);
 exports.BoardsController = BoardsController = __decorate([

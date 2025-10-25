@@ -49,10 +49,14 @@ export class BoardsService {
     return board;
   }
 
-  // 모든 게시물 가져오기
-  async getAllBoards(): Promise<Board[]> {
-    return this.boardRepository.find({
-      relations: ['user'],
-    });
+  // 모든 게시물 가져오기 중 특정 유저 게시물만 가져오기 추가
+  async getAllBoards(user: User): Promise<Board[]> {
+    const query = this.boardRepository.createQueryBuilder('board');
+
+    query.where('board.userId = :userId', { userId: user.id });
+
+    const boards = await query.getMany();
+
+    return boards;
   }
 }
