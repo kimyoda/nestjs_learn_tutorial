@@ -35,10 +35,13 @@ export class BoardsController {
     return this.boardService.createBoard(CreateBoardDto, user);
   }
 
-  // 게시물 조회
+  // 게시물 조회(유저 게시물을 ID로 가져오기)
   @Get('/:id')
-  getBoardById(@Param('id') id: number): Promise<Board> {
-    return this.boardService.getBoardById(id);
+  getBoardById(
+    @Param('id', ParseIntPipe) id: number,
+    @GetUser() user: User,
+  ): Promise<Board> {
+    return this.boardService.getBoardById(id, user);
   }
 
   // 게시물 삭제
@@ -55,8 +58,9 @@ export class BoardsController {
   updateBoardStatus(
     @Param('id', ParseIntPipe) id: number,
     @Body('status', BoardStatusValidationPipe) status: BoardStatus,
+    @GetUser() user: User,
   ): Promise<Board> {
-    return this.boardService.updateBoardStatus(id, status);
+    return this.boardService.updateBoardStatus(id, status, user);
   }
 
   // 모든 게시물 가져오기

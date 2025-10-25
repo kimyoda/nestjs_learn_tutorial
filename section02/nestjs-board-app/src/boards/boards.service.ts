@@ -19,9 +19,11 @@ export class BoardsService {
   }
 
   // 게시물 조회 로직
-  async getBoardById(id: number): Promise<Board> {
+  async getBoardById(id: number, user: User): Promise<Board> {
     // findOne의 사용방법이 바뀌어서 객체를 기대하기에 수정한다.
-    const found = await this.boardRepository.findOne({ where: { id } });
+    const found = await this.boardRepository.findOne({
+      where: { id, userId: user.id },
+    });
 
     if (!found) {
       throw new NotFoundException(`Can't find Board with id ${id}`);
@@ -40,8 +42,12 @@ export class BoardsService {
   }
 
   // 게시물 상태 업데이트
-  async updateBoardStatus(id: number, status: BoardStatus): Promise<Board> {
-    const board = await this.getBoardById(id);
+  async updateBoardStatus(
+    id: number,
+    status: BoardStatus,
+    user: User,
+  ): Promise<Board> {
+    const board = await this.getBoardById(id, user);
 
     board.status = status;
     await this.boardRepository.save(board);
