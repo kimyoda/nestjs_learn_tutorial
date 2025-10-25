@@ -43,10 +43,11 @@ let BoardsService = class BoardsService {
         await this.boardRepository.save(board);
         return board;
     }
-    async getAllBoards() {
-        return this.boardRepository.find({
-            relations: ['user'],
-        });
+    async getAllBoards(user) {
+        const query = this.boardRepository.createQueryBuilder('board');
+        query.where('board.userId = :userId', { userId: user.id });
+        const boards = await query.getMany();
+        return boards;
     }
 };
 exports.BoardsService = BoardsService;
