@@ -29,14 +29,14 @@ let BoardsController = class BoardsController {
     createBoard(CreateBoardDto, user) {
         return this.boardService.createBoard(CreateBoardDto, user);
     }
-    getBoardById(id) {
-        return this.boardService.getBoardById(id);
+    getBoardById(id, user) {
+        return this.boardService.getBoardById(id, user);
     }
     deleteBoard(id, user) {
         return this.boardService.deleteBoard(id, user);
     }
-    updateBoardStatus(id, status) {
-        return this.boardService.updateBoardStatus(id, status);
+    updateBoardStatus(id, status, user) {
+        return this.boardService.updateBoardStatus(id, status, user);
     }
     getAllBoard(user) {
         return this.boardService.getAllBoards(user);
@@ -55,9 +55,10 @@ __decorate([
 ], BoardsController.prototype, "createBoard", null);
 __decorate([
     (0, common_1.Get)('/:id'),
-    __param(0, (0, common_1.Param)('id')),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    __param(1, (0, get_user_decorator_1.GetUser)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", [Number, user_entity_1.User]),
     __metadata("design:returntype", Promise)
 ], BoardsController.prototype, "getBoardById", null);
 __decorate([
@@ -72,8 +73,9 @@ __decorate([
     (0, common_1.Patch)('/:id/status'),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __param(1, (0, common_1.Body)('status', board_status_validation_pipe_1.BoardStatusValidationPipe)),
+    __param(2, (0, get_user_decorator_1.GetUser)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, String]),
+    __metadata("design:paramtypes", [Number, String, user_entity_1.User]),
     __metadata("design:returntype", Promise)
 ], BoardsController.prototype, "updateBoardStatus", null);
 __decorate([

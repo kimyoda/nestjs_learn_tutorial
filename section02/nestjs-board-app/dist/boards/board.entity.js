@@ -19,6 +19,7 @@ let Board = class Board extends typeorm_1.BaseEntity {
     description;
     status;
     user;
+    userId;
 };
 exports.Board = Board;
 __decorate([
@@ -41,6 +42,10 @@ __decorate([
     (0, typeorm_1.ManyToOne)((type) => user_entity_1.User, (user) => user.boards, { eager: false }),
     __metadata("design:type", user_entity_1.User)
 ], Board.prototype, "user", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Number)
+], Board.prototype, "userId", void 0);
 exports.Board = Board = __decorate([
     (0, typeorm_1.Entity)()
 ], Board);
