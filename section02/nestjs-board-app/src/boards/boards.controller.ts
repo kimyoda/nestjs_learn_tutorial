@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Logger,
   Param,
   ParseIntPipe,
   Patch,
@@ -23,16 +24,20 @@ import { User } from 'src/auth/user.entity';
 @Controller('boards')
 @UseGuards(AuthGuard())
 export class BoardsController {
+  private logger = new Logger('BoardsController');
   constructor(private boardService: BoardsService) {}
 
   // 게시물 생성
   @Post()
   @UsePipes(ValidationPipe)
   createBoard(
-    @Body() CreateBoardDto: CreateBoardDto,
+    @Body() createBoardDto: CreateBoardDto,
     @GetUser() user: User,
   ): Promise<Board> {
-    return this.boardService.createBoard(CreateBoardDto, user);
+    this.logger.verbose(
+      `User ${user.username} creating a new board. Payload: ${JSON.stringify(createBoardDto)}`,
+    );
+    return this.boardService.createBoard(createBoardDto, user);
   }
 
   // 게시물 조회(유저 게시물을 ID로 가져오기)
@@ -66,6 +71,7 @@ export class BoardsController {
   // 모든 게시물 가져오기
   @Get()
   getAllBoard(@GetUser() user: User): Promise<Board[]> {
+    this.logger.verbose(`User ${user.username} trying to get all boards`);
     return this.boardService.getAllBoards(user);
   }
 }
