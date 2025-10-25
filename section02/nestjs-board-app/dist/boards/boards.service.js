@@ -31,8 +31,8 @@ let BoardsService = class BoardsService {
         }
         return found;
     }
-    async deleteBoard(id) {
-        const result = await this.boardRepository.delete(id);
+    async deleteBoard(id, user) {
+        const result = await this.boardRepository.delete({ id, user });
         if (result.affected === 0) {
             throw new common_1.NotFoundException(`Can't find Board with id ${id}`);
         }

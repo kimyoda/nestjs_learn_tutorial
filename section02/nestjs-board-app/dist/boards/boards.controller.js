@@ -32,8 +32,8 @@ let BoardsController = class BoardsController {
     getBoardById(id) {
         return this.boardService.getBoardById(id);
     }
-    deleteBoard(id) {
-        return this.boardService.deleteBoard(id);
+    deleteBoard(id, user) {
+        return this.boardService.deleteBoard(id, user);
     }
     updateBoardStatus(id, status) {
         return this.boardService.updateBoardStatus(id, status);
@@ -63,8 +63,9 @@ __decorate([
 __decorate([
     (0, common_1.Delete)('/:id'),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    __param(1, (0, get_user_decorator_1.GetUser)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", [Number, user_entity_1.User]),
     __metadata("design:returntype", Promise)
 ], BoardsController.prototype, "deleteBoard", null);
 __decorate([
