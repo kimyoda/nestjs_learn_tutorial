@@ -24,8 +24,10 @@ let BoardsService = class BoardsService {
     createBoard(createBoardDto, user) {
         return this.boardRepository.createBoard(createBoardDto, user);
     }
-    async getBoardById(id) {
-        const found = await this.boardRepository.findOne({ where: { id } });
+    async getBoardById(id, user) {
+        const found = await this.boardRepository.findOne({
+            where: { id, userId: user.id },
+        });
         if (!found) {
             throw new common_1.NotFoundException(`Can't find Board with id ${id}`);
         }
@@ -37,8 +39,8 @@ let BoardsService = class BoardsService {
             throw new common_1.NotFoundException(`Can't find Board with id ${id}`);
         }
     }
-    async updateBoardStatus(id, status) {
-        const board = await this.getBoardById(id);
+    async updateBoardStatus(id, status, user) {
+        const board = await this.getBoardById(id, user);
         board.status = status;
         await this.boardRepository.save(board);
         return board;

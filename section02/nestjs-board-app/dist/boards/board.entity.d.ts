@@ -7,4 +7,5 @@ export declare class Board extends BaseEntity {
     description: string;
     status: BoardStatus;
     user: User;
+    userId: number;
 }

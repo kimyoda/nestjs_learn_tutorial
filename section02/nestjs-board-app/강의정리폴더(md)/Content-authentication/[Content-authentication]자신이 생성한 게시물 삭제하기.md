@@ -18,31 +18,48 @@ controller
   }
 ```
 
-controller
+service
 
 ```ts
-  async getBoardById {
+  async updateBoardStatus(
     id: number,
-    user: User
-  }: Promise<Board> {
-    const found await this.boardRepository.findOne({where: {id, userId: user.id}});
+    status: BoardStatus,
+    user: User,
+  ): Promise<Board> {
+    const board = await this.getBoardById(id, user);
 
-    if (!found) {
-      throw new NotFoundException(`Can't find Board with id ${id}`)
-    }
+    board.status = status;
+    await this.boardRepository.save(board);
 
-    return found;
+    return board;
   }
 ```
 
 결과 예시
-user2로 만든 게시물(토큰받아옴) -> user3으로 로그인하여 지워보기(에러)
+localhost:3000/boards/8/status
 
 ```json
 {
-  "message": "Can't find Board with id 7",
-  "error": "Not Found",
-  "statusCode": 404
+    "status": "PUBLIC"
+}
+{
+    "status": "PRIVATE"
+}
+
+
+{
+    "id": 8,
+    "title": "board9",
+    "description": "new description",
+    "status": "PUBLIC",
+    "userId": 2
+}
+{
+    "id": 8,
+    "title": "board9",
+    "description": "new description",
+    "status": "PRIVATE",
+    "userId": 2
 }
 ```
 
