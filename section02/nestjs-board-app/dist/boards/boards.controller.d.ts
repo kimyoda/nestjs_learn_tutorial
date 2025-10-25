@@ -10,5 +10,5 @@ export declare class BoardsController {
     getBoardById(id: number): Promise<Board>;
     deleteBoard(id: number): Promise<void>;
     updateBoardStatus(id: number, status: BoardStatus): Promise<Board>;
-    getAllBoard(): Promise<Board[]>;
+    getAllBoard(user: User): Promise<Board[]>;
 }
